@@ -206,6 +206,7 @@
   // the router" are observations a visitor can check, not sentences we wrote.
   const net = [];
   const consents = [];
+  let probeMark = 0;
   const realFetch = window.fetch.bind(window);
   window.fetch = async (input, init = {}) => {
     const raw = typeof input === "object" && input && "url" in input ? input.url : String(input);
@@ -313,7 +314,7 @@
           label: info.peerLabel,
           decision,
           at: performance.now(),
-          requestsBefore: net.filter((rec) => hostOf(rec.url) === info.peerOrigin).length,
+          requestsBefore: net.slice(probeMark).filter((rec) => hostOf(rec.url) === info.peerOrigin).length,
         });
         buttons.remove();
         box.append(h("p", "done", words));
@@ -345,7 +346,7 @@
         return target;
       };
     }
-    const mark = net.length;
+    const mark = (probeMark = net.length);
     let answer = "", error = "";
     try {
       await engine.loadTop();

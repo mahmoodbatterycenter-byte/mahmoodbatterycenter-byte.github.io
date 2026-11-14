@@ -4,6 +4,10 @@
 # modules, the catalogue's business logic and any future endpoint keep normal browser policy, so
 # they are deliberately absent from this file. Opening a business endpoint would hand a stranger's
 # page a route into this shop's data.
+#
+# Measured on the free hosts (14-Nov-2026): GitHub Pages ignores this file, and Cloudflare Pages honours it for
+# Cache-Control but sends Access-Control-Allow-Origin:* on every pages.dev response anyway. So this is the
+# authored policy, enforced path-for-path by test/interop.mjs, not a withholding the hosts can deliver.
 
 /agent-manifest.json
   Access-Control-Allow-Origin: *

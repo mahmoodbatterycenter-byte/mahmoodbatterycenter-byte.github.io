@@ -1,0 +1,32 @@
+{
+  "brand": "Conformance fixture — composition budget",
+  "networks": [
+    {
+      "name": "budget_probe",
+      "front_man": "repeat_counter",
+      "hocon": "./budget_probe.network.json",
+      "description": "Asks the same peer network twice in one query. The runtime's per-query budget allows one consultation per peer, so the second hop must be refused and said so out loud."
+    },
+    {
+      "name": "one_target",
+      "front_man": "answers_once",
+      "hocon": "./one_target.network.json",
+      "description": "The peer that budget_probe consults. It is a real two-agent published network so the skip is a real budget decision, not a stub."
+    }
+  ],
+  "llm_router": {
+    "base_url": "browser://mock",
+    "mock": true,
+    "byok_router": "https://openrouter.ai/api/v1"
+  },
+  "allowed_peers": [],
+  "peer_policy": {
+    "mode": "open",
+    "deny_origins": []
+  },
+  "deployment": {
+    "mode": "static",
+    "self_contained_runtime": true,
+    "browser_mock": true
+  }
+}

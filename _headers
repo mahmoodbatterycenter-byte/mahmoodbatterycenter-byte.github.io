@@ -1,0 +1,55 @@
+# Cloudflare Pages / Netlify header rules for the shopfront origin.
+#
+# Spec 3.4 and the static-bundle notes: CORS is opened on public agent artifacts only. Action
+# modules, the catalogue's business logic and any future endpoint keep normal browser policy, so
+# they are deliberately absent from this file. Opening a business endpoint would hand a stranger's
+# page a route into this shop's data.
+
+/agent-manifest.json
+  Access-Control-Allow-Origin: *
+  Cache-Control: no-store
+
+/links.json
+  Access-Control-Allow-Origin: *
+  Cache-Control: no-store
+
+/agent-mcp.json
+  Access-Control-Allow-Origin: *
+  Cache-Control: no-store
+
+/invoice_shopfront_assistant.network.json
+  Access-Control-Allow-Origin: *
+  Cache-Control: no-store
+
+/.well-known/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: no-store
+
+/catalog/inventory.json
+  Access-Control-Allow-Origin: *
+  Cache-Control: no-store
+
+# Published conformance fixtures. Each is a real peer target on a real origin, because a check
+# that "stop a cycle / stop over-budget / stop an invalid network" was only ever demonstrated in a
+# mock proves nothing to a reader.
+/broken/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: no-store
+
+/cyclic/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: no-store
+
+/budget/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: no-store
+
+/deny/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: no-store
+
+# The coded-tool sandbox worker holds no authority of its own; the static bundle gives it nothing
+# to reach, and this header says so at the transport layer too.
+/runtime/sandbox-worker.js
+  Content-Security-Policy: default-src 'none'; script-src blob:; connect-src 'none'; worker-src 'none'
+  Cache-Control: public, max-age=300

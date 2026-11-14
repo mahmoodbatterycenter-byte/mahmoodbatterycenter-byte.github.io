@@ -1,0 +1,98 @@
+{
+  "brand": "Mahmood Battery Center — Agentified Counter",
+  "networks": [
+    {
+      "name": "invoice_shopfront_assistant",
+      "front_man": "counter_desk",
+      "hocon": "./invoice_shopfront_assistant.network.json",
+      "description": "Answers counter questions for a Rawalpindi battery and solar shop: catalogue stock and prices from the shop's own published data, FBR digital-invoicing questions from a deterministic rules action carrying every citation, and the text of the law from a rules authority published on a different website.",
+      "tags": [
+        "deployed",
+        "nsdeploy",
+        "fbr",
+        "pakistan"
+      ],
+      "sample_queries": [
+        "Do you have the 150Ah tubular battery in stock right now, and what is it today?",
+        "I sold a battery to a registered dealer yesterday on a digital invoice - can I still cancel it and how?",
+        "Do I need to put the buyer's NTN on this bill, or is a name enough?",
+        "Which channel should this sale go through, POS or Digital Invoicing?"
+      ]
+    }
+  ],
+  "llm_router": {
+    "base_url": "browser://mock",
+    "mock": true,
+    "byok_router": "https://openrouter.ai/api/v1",
+    "note": "The published default path is the reference runtime's deterministic mock: the network runs with no key and no server, which is what makes every interoperability claim on the Conformance page reproducible by a judge who has not set anything up. Bring your own key switches to a real OpenRouter-compatible router in the same runtime. No publisher-funded inference endpoint is offered, so no key of ours exists to leak."
+  },
+  "allowed_peers": [],
+  "peer_policy": {
+    "mode": "open",
+    "deny_origins": [
+      "https://oaw-denied-fixture.pages.dev"
+    ],
+    "note": "Public agent sites are reachable like web pages; credentials and capabilities do not transfer. The denied origin is a published fixture so the 'stop a denied origin' interoperability check has a real destination to refuse; it is denied rather than absent, which is the stronger test."
+  },
+  "actions": {
+    "version": 1,
+    "module": "./site/actions/fbr-rules.mjs",
+    "callerOrigins": [],
+    "note": "Local site actions only. They run in this page's JavaScript against this page's own origin; no cross-site action transport is claimed."
+  },
+  "agent_mcp": {
+    "protocol": "nsdeploy-agent-mcp/v1",
+    "network": "invoice_shopfront_assistant",
+    "front_man": "counter_desk",
+    "available": false,
+    "reason": "This is a static bundle; a public MCP facade requires an application host. Grounded capability here is a registered local site action and a published data file, which spec 2.1 lists as equally valid."
+  },
+  "theme": {
+    "primary": "#0b3d2e"
+  },
+  "linking": {
+    "protocol": "nsdeploy-link/v1",
+    "exports": [
+      {
+        "network": "invoice_shopfront_assistant",
+        "front_man": "counter_desk",
+        "aliases": [
+          "invoice_shopfront_assistant",
+          "counter_desk"
+        ],
+        "url": "invoice_shopfront_assistant"
+      }
+    ],
+    "imports": [
+      {
+        "network": "invoice_shopfront_assistant",
+        "reference": "fbr_rules_authority",
+        "callers": [
+          "counter_desk"
+        ],
+        "status": "bound"
+      }
+    ],
+    "link_updates": {
+      "mode": "browser-local"
+    }
+  },
+  "deployment": {
+    "mode": "static",
+    "self_contained_runtime": true,
+    "browser_mock": true,
+    "direct_byok": true,
+    "direct_mcp_requires_cors": true,
+    "public_mcp_facade": false
+  },
+  "credit": "Designed & Developed by Arham Shah",
+  "specification": "Open Agentic Web MVP Profile 0.2, 6 November 2026",
+  "licence": "Apache-2.0",
+  "vendored_runtime": {
+    "repository": "https://github.com/cognizant-ai-lab/nsdeploy",
+    "path": "nsdeploy/runtime",
+    "commit": "53a787cc23c774ec19ad287d3c61ae571ad9d334",
+    "licence": "Apache-2.0",
+    "note": "/runtime on this origin is the sponsor's reference implementation, copied verbatim and integrity-checked. It is not entrant code."
+  }
+}

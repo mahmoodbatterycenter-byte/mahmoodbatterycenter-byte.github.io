@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "networks": {
+    "budget_probe": {}
+  },
+  "note": "Both slots are published unbound, on purpose. A binding in this file must name one absolute host, and this fixture's peer is one_target — a network published by this same origin. So the binding is made when the network runs, by the host page or the visitor through the runtime's own link hook, and it lands on whatever origin the bundle is actually served from. Two different slot names, one peer, one budget: the second consultation is what the runtime must refuse."
+}

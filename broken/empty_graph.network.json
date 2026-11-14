@@ -1,0 +1,11 @@
+{
+  "name": "empty_graph",
+  "metadata": {
+    "description": "Invalid on purpose: an agent network with no agents. tools is empty, so validate_network emits \"Network 'tools' array must not be empty\" and the runtime throws before a model call is made."
+  },
+  "llm_config": {
+    "model_name": "mock-1"
+  },
+  "max_execution_seconds": 30,
+  "tools": []
+}

@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "networks": {
+    "deny_probe": {
+      "refused_peer": "https://oaw-denied-fixture.pages.dev/denied_network"
+    }
+  },
+  "note": "A real absolute URL on an origin this site's own manifest names in peer_policy.deny_origins. The destination is published rather than invented, so the denied-origin check has something concrete to refuse and a reader can confirm the refusal came from policy: no request for this origin appears in the page's own network log."
+}

@@ -1,0 +1,24 @@
+{
+  "brand": "Conformance fixture — invalid network",
+  "networks": [
+    {
+      "name": "empty_graph",
+      "front_man": null,
+      "hocon": "./empty_graph.network.json",
+      "description": "A deliberately non-conforming published network. spec 6 asks that an invalid network be stopped with a visible error, so this one is published rather than simulated: it has no agents at all, and the reference validator refuses to run it before any model call."
+    }
+  ],
+  "llm_router": {
+    "base_url": "browser://mock",
+    "mock": true
+  },
+  "allowed_peers": [],
+  "peer_policy": {
+    "mode": "open",
+    "deny_origins": []
+  },
+  "deployment": {
+    "mode": "static",
+    "self_contained_runtime": true
+  }
+}

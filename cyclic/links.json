@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "networks": {
+    "composition_cycle": {}
+  },
+  "note": "Nothing to bind. The cycle is not a link slot: loop_runner's own tool list names /cyclic/composition_cycle, which is this very network, so the second hop is already in the call chain and the runtime must refuse it. The path is root-relative so the fixture cycles against whatever origin it is served from."
+}

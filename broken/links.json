@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "networks": {
+    "empty_graph": {}
+  },
+  "note": "Nothing to bind: this fixture publishes no peers. It exists so the invalid-network check has a real published file to reject, and the runtime reads links.json on every compile, so this file is published rather than left to 404."
+}

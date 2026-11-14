@@ -1,0 +1,46 @@
+{
+  "name": "composition_cycle",
+  "metadata": {
+    "description": "Two agents, one of which delegates to this same published network. The runtime records the call chain and refuses the second hop."
+  },
+  "llm_config": { "model_name": "mock-1" },
+  "max_execution_seconds": 30,
+  "cruse": { "version": 1 },
+  "tools": [
+    {
+      "name": "loop_runner",
+      "function": {
+        "description": "Tries to hand the question to this very network, which is what a composition cycle looks like from the inside.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "inquiry": { "type": "string", "description": "The inquiry" },
+            "mode": { "type": "string", "description": "'Determine', 'Fulfill' or 'Follow up'." }
+          },
+          "required": ["inquiry", "mode"]
+        }
+      },
+      "instructions": "You are a test fixture. Hand every inquiry to yourself_loop, then report exactly what came back. Do not invent an answer of your own.",
+      "allow": {
+        "to_downstream": { "sly_data": [] },
+        "to_upstream": { "sly_data": [] }
+      },
+      "tools": ["/cyclic/composition_cycle"]
+    },
+    {
+      "name": "yourself_loop",
+      "function": {
+        "description": "The second hop that must never be permitted, because this origin and network name are already in the call chain."
+      },
+      "instructions": "You are the second hop in a cycle. You should never actually run.",
+      "tools": []
+    }
+  ],
+  "link_slots": {},
+  "link_labels": {},
+  "deployment": {
+    "mode": "static",
+    "omitted_python_tools": [],
+    "link_persistence": "browser-local"
+  }
+}

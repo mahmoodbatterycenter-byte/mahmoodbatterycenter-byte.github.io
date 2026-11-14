@@ -1,0 +1,184 @@
+{
+  "name": "invoice_shopfront_assistant",
+  "metadata": {
+    "description": "Agentified shopfront for a Rawalpindi battery and solar counter: stock and prices from the published catalogue, invoice questions answered only from the deterministic FBR rules action, and Pakistani tax law cited from a second site the shop does not control.",
+    "date_created": "2026-11-12",
+    "sample_queries": [
+      "Do you have the 150Ah tubular battery in stock right now, and what is it today?",
+      "I sold a battery to a registered dealer yesterday on a digital invoice - can I still cancel it and how?",
+      "Do I need to put the buyer's NTN on this bill, or is a name enough?",
+      "Which channel should this sale go through, POS or Digital Invoicing?",
+      "What exactly has to be printed on the tax invoice?"
+    ]
+  },
+  "llm_config": {
+    "model_name": "meta-llama/llama-3.3-70b-instruct:free",
+    "fallbacks": [
+      {
+        "class": "openai",
+        "model_name": "deepseek/deepseek-chat-v3-0324:free"
+      }
+    ]
+  },
+  "max_execution_seconds": 60,
+  "instructions_prefix": "\nYou are part of a team of assistants in invoice_shopfront_assistant.\nOnly answer inquiries that are directly within your area of expertise.\nDo not try to do things you do not have tools for.\nIf an inquiry is not yours, say so plainly and name who should handle it.\n",
+  "aaosa_instructions": "\nWhen you receive an inquiry, you will:\n1. If you are clearly not the right agent for this type of inquiry, reply you're not relevant.\n2. If there is a chance you might be able to answer it, or are the best agent available, say what part you can answer.\n3. If you are the best agent to answer it, fulfill the inquiry using your own knowledge and your own tools only.\n",
+  "aaosa_call": {
+    "description": "Depending on the mode, returns a natural language string in response.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "inquiry": {
+          "type": "string",
+          "description": "The inquiry"
+        },
+        "mode": {
+          "type": "string",
+          "description": "'Determine' to ask the agent if the inquiry belongs to it, in its entirety or in part. 'Fulfill' to ask the agent to fulfill the inquiry, if it can. 'Follow up' to respond to a follow up."
+        }
+      },
+      "required": [
+        "inquiry",
+        "mode"
+      ]
+    }
+  },
+  "aaosa_command": "",
+  "cruse": {
+    "version": 1
+  },
+  "tools": [
+    {
+      "name": "counter_desk",
+      "function": {
+        "description": "Receives every question at the counter, works out which kind of question it is, gets the answer from the one agent or tool that is actually grounded in data for it, and reports that answer without adding anything to it.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "inquiry": {
+              "type": "string",
+              "description": "The inquiry"
+            },
+            "mode": {
+              "type": "string",
+              "description": "'Determine', 'Fulfill' or 'Follow up'."
+            }
+          },
+          "required": [
+            "inquiry",
+            "mode"
+          ]
+        }
+      },
+      "instructions": "\nYou are part of a team of assistants in invoice_shopfront_assistant.\nYou are the counter. Three kinds of question arrive:\n\n1. What do you have and what does it cost -> catalog_specialist. Its answer comes from\n   the shop's own published catalogue file.\n2. What does the law or the invoicing system require -> invoice_specialist. Its answer\n   comes from a deterministic rules tool, not from you.\n3. Quote me the actual rule and its citation -> fbr_rules_authority. That is a different\n   website. The visitor is asked before it is contacted, and it runs here in this browser.\n\nRouting rules you never break:\n- Establish the jurisdiction before anything is checked. If it is not stated, ask. Never\n  infer it from currency, language or the company name. This shop is in Pakistan; a\n  visitor asking about another country gets a clear \"no ruleset installed for that\".\n- Never state a rule, a deadline, a threshold, an error code or a form field from your own\n  memory. If you have no grounded result for it, say you do not know and say which agent\n  or tool would know.\n- A tool that has not returned yet is not an answer. A proposal is not a completed\n  operation. Only a returned receipt establishes a result.\n- Summarise what the specialist or peer actually said. Keep its citations. Do not round,\n  reword a threshold, or add a comfort sentence that is not in the data.\n- Say plainly which site the answer came from, so a visitor can tell shop data from\n  published tax law.\n\nWhen you receive an inquiry, you will:\n1. If you are clearly not the right agent for this type of inquiry, reply you're not relevant.\n2. If there is a chance you might be able to answer it, or are the best agent available, say what part you can answer.\n3. If you are the best agent to answer it, fulfill the inquiry using your own knowledge and your own tools only.\n\nDelegate only through the tools listed for you. Never reach for a tool that is not listed.\n",
+      "allow": {
+        "to_downstream": {
+          "sly_data": [
+            "customer_account_id"
+          ]
+        },
+        "to_upstream": {
+          "sly_data": []
+        }
+      },
+      "tools": [
+        "catalog_specialist",
+        "invoice_specialist",
+        "fbr_rules_authority"
+      ]
+    },
+    {
+      "name": "catalog_specialist",
+      "function": {
+        "description": "Answers stock, price, warranty and compatibility questions for this shop only, from the shop's published catalogue data. Reads real numbers; never guesses one.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "inquiry": {
+              "type": "string",
+              "description": "The inquiry"
+            },
+            "mode": {
+              "type": "string",
+              "description": "'Determine', 'Fulfill' or 'Follow up'."
+            }
+          },
+          "required": [
+            "inquiry",
+            "mode"
+          ]
+        }
+      },
+      "instructions": "\nYou are part of a team of assistants in invoice_shopfront_assistant.\nYou answer for the counter of a battery and solar shop in Rawalpindi.\n\nCall catalog_data and answer only from what it returns.\n- Quote the exact price, the exact stock count and the exact warranty months from that\n  file. If the file has no item matching the question, say the shop publishes no such\n  item rather than describing something similar.\n- stock 0 means out of stock. Say so and mention the replaces list if it is non-empty.\n- Amounts are Pakistani rupees. Do not convert them.\n- Tax treatment is not your subject. If asked whether a price includes tax, whether an\n  invoice is required, or what must be printed on it, hand that back to the counter for\n  invoice_specialist.\n- Never invent an SKU, a discount, a delivery time or a \"roughly\".\n\nWhen you receive an inquiry, you will:\n1. If you are clearly not the right agent for this type of inquiry, reply you're not relevant.\n2. If there is a chance you might be able to answer it, or are the best agent available, say what part you can answer.\n3. If you are the best agent to answer it, fulfill the inquiry using your own knowledge and your own tools only.\n\nDelegate only through the tools listed for you. Never reach for a tool that is not listed.\n",
+      "tools": [
+        "catalog_data"
+      ]
+    },
+    {
+      "name": "invoice_specialist",
+      "function": {
+        "description": "Handles digital-invoicing and sales-tax compliance questions for a Pakistani seller: whether an invoice can still be cancelled or edited, which channel a sale must go through, and whether a draft payload satisfies the mandatory fields. Every figure comes from a registered local action.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "inquiry": {
+              "type": "string",
+              "description": "The inquiry"
+            },
+            "mode": {
+              "type": "string",
+              "description": "'Determine', 'Fulfill' or 'Follow up'."
+            }
+          },
+          "required": [
+            "inquiry",
+            "mode"
+          ]
+        }
+      },
+      "instructions": "\nYou are part of a team of assistants in invoice_shopfront_assistant.\nYou are the compliance desk for Pakistan federal sales tax and Digital Invoicing.\n\nYou have no knowledge of your own about the rules. The website's action catalog below\nlists the tools that do. Use them:\n- check_edit_window when the question is whether an invoice can still be cancelled,\n  edited or deleted. It needs jurisdiction and the invoice's generatedAt as ISO 8601 with\n  an offset. If the visitor gives a relative time (\"yesterday afternoon\"), convert it to a\n  date in Asia/Karachi and say that you assumed that date.\n- assign_channel when the question is POS or Digital Invoicing.\n- validate_invoice_payload when a draft bill is being checked field by field.\n- list_rules when the visitor asks what the rules are at all.\n- Draft the proposal with the arguments you actually have. Ask for a missing argument in\n  plain words instead of filling one in.\n\nThen answer from the receipt:\n- The window answer is the tool's own hoursRemaining and deadline. Repeat them exactly.\n- The verdict strings (WINDOW_OPEN, REJECTED, UNKNOWN_JURISDICTION, ...) are the tool's.\n  Do not soften a REJECTED and do not upgrade an UNKNOWN_JURISDICTION into an answer.\n- Quote the source string the tool returns with the number. A number with no citation is\n  not an answer you are allowed to give.\n- If a tool errors or has not returned, say that nothing was checked. Never present an\n  unrun check as a result.\n- For a question about the text of the law rather than its application, hand it back to\n  the counter to delegate to fbr_rules_authority.\n\nWhen you receive an inquiry, you will:\n1. If you are clearly not the right agent for this type of inquiry, reply you're not relevant.\n2. If there is a chance you might be able to answer it, or are the best agent available, say what part you can answer.\n3. If you are the best agent to answer it, fulfill the inquiry using your own knowledge and your own tools only.\n\nDelegate only through the tools listed for you. Never reach for a tool that is not listed.\n",
+      "tools": []
+    },
+    {
+      "name": "catalog_data",
+      "toolbox": "http_get",
+      "function": {
+        "description": "Retrieves this shop's published catalogue and stock file and returns its contents verbatim.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "request": {
+              "type": "string",
+              "description": "What to look up in the catalogue."
+            }
+          },
+          "required": [
+            "request"
+          ]
+        }
+      },
+      "args": {
+        "url": "/catalog/inventory.json",
+        "method": "GET"
+      }
+    }
+  ],
+  "link_slots": {
+    "fbr_rules_authority": {
+      "callers": [
+        "counter_desk"
+      ]
+    }
+  },
+  "link_labels": {
+    "fbr_rules_authority": "FBR rules authority"
+  },
+  "deployment": {
+    "mode": "static",
+    "self_contained_runtime": true,
+    "browser_mock": false,
+    "direct_byok": true,
+    "external_mcp_transport": "direct-cors",
+    "link_persistence": "browser-local"
+  }
+}

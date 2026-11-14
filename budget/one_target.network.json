@@ -1,0 +1,46 @@
+{
+  "name": "one_target",
+  "metadata": {
+    "description": "The peer that budget_probe consults. A published two-agent network, so refusing the second consultation is a real budget decision about a real peer rather than a stub."
+  },
+  "llm_config": { "model_name": "mock-1" },
+  "max_execution_seconds": 30,
+  "cruse": { "version": 1 },
+  "tools": [
+    {
+      "name": "answers_once",
+      "function": {
+        "description": "Answers one inquiry about this fixture and says which consultation it was.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "inquiry": { "type": "string", "description": "The inquiry" },
+            "mode": { "type": "string", "description": "'Determine', 'Fulfill' or 'Follow up'." }
+          },
+          "required": ["inquiry", "mode"]
+        }
+      },
+      "instructions": "You are the front man of a small published fixture network. Answer the inquiry in one sentence, starting with 'one_target answer:'. Do not call any tool.",
+      "allow": {
+        "to_downstream": { "sly_data": [] },
+        "to_upstream": { "sly_data": [] }
+      },
+      "tools": ["fixture_clerk"]
+    },
+    {
+      "name": "fixture_clerk",
+      "function": {
+        "description": "Second agent of the fixture network, so this peer meets the two-agent minimum like any published network."
+      },
+      "instructions": "You record that the fixture network was consulted. Reply with 'one_target consulted'.",
+      "tools": []
+    }
+  ],
+  "link_slots": {},
+  "link_labels": {},
+  "deployment": {
+    "mode": "static",
+    "omitted_python_tools": [],
+    "link_persistence": "browser-local"
+  }
+}

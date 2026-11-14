@@ -1,0 +1,27 @@
+{
+  "brand": "Conformance fixture — composition cycle",
+  "networks": [
+    {
+      "name": "composition_cycle",
+      "front_man": "loop_runner",
+      "hocon": "./composition_cycle.network.json",
+      "description": "A published network that hands its own question back to itself. spec 6 asks that a composition cycle be stopped, so the cycle is a real topology on a real origin rather than a mocked one."
+    }
+  ],
+  "llm_router": {
+    "base_url": "browser://mock",
+    "mock": true,
+    "byok_router": "https://openrouter.ai/api/v1"
+  },
+  "allowed_peers": [],
+  "peer_policy": {
+    "mode": "open",
+    "deny_origins": [],
+    "note": "Open, because the refusal being demonstrated here is the cycle guard, not the origin policy."
+  },
+  "deployment": {
+    "mode": "static",
+    "self_contained_runtime": true,
+    "browser_mock": true
+  }
+}

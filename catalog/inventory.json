@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "shop": "Mahmood Battery Center, Rawalpindi",
+  "currency": "PKR",
+  "prices_include_tax": false,
+  "published": "2026-11-12",
+  "note": "Ordinary site data. The agent's stock and price answers come from this file, not from a model's memory. Prices are the counter's own; change this file and the agent changes with it.",
+  "items": [
+    {
+      "sku": "BAT-D7-100",
+      "name": "Deep-cycle tubular battery 100Ah",
+      "price": 34500,
+      "stock": 6,
+      "warranty_months": 24,
+      "sales_tax_exempt": false,
+      "sro_schedule_no": "",
+      "replaces": ["BAT-D7-90"]
+    },
+    {
+      "sku": "BAT-D7-150",
+      "name": "Deep-cycle tubular battery 150Ah",
+      "price": 49800,
+      "stock": 2,
+      "warranty_months": 36,
+      "sales_tax_exempt": false,
+      "sro_schedule_no": "",
+      "replaces": ["BAT-D7-100"]
+    },
+    {
+      "sku": "INV-ONL-1KVA",
+      "name": "Online UPS 1kVA",
+      "price": 28500,
+      "stock": 0,
+      "warranty_months": 12,
+      "sales_tax_exempt": false,
+      "sro_schedule_no": "",
+      "replaces": []
+    },
+    {
+      "sku": "SOL-550W",
+      "name": "Solar panel 550W mono PERC",
+      "price": 41250,
+      "stock": 11,
+      "warranty_months": 300,
+      "sales_tax_exempt": true,
+      "sro_schedule_no": "SRO 1119(I)/2023",
+      "replaces": []
+    },
+    {
+      "sku": "CABLE-25MM",
+      "name": "Solar DC cable 25 sq mm, per metre",
+      "price": 640,
+      "stock": 180,
+      "warranty_months": 0,
+      "sales_tax_exempt": false,
+      "sro_schedule_no": "",
+      "replaces": []
+    }
+  ]
+}

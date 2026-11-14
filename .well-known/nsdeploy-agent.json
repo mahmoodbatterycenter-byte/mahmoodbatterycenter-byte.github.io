@@ -1,0 +1,19 @@
+{
+  "protocol": "nsdeploy-agent/v1",
+  "network": "invoice_shopfront_assistant",
+  "front_man": "counter_desk",
+  "url": "https://mahmoodbatterycenter-byte.github.io/invoice_shopfront_assistant",
+  "artifacts": {
+    "manifest": "https://mahmoodbatterycenter-byte.github.io/agent-manifest.json",
+    "network": "https://mahmoodbatterycenter-byte.github.io/invoice_shopfront_assistant.network.json",
+    "links": "https://mahmoodbatterycenter-byte.github.io/links.json"
+  },
+  "exports": [
+    {
+      "reference": "fbr_rules_authority",
+      "bound_to": "https://fbr-rules-authority.pages.dev/fbr_rules_authority",
+      "publisher_owned": true
+    }
+  ],
+  "note": "Optional discovery metadata. The interoperability path is /agent-manifest.json plus /links.json; this file only tells a reader where the artifacts are before they fetch anything."
+}

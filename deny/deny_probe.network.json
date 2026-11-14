@@ -1,0 +1,53 @@
+{
+  "name": "deny_probe",
+  "metadata": {
+    "description": "One named peer reference bound to a published network on an origin this site refuses. Demonstrates that the origin policy gate runs before any network request."
+  },
+  "llm_config": { "model_name": "mock-1" },
+  "max_execution_seconds": 30,
+  "cruse": { "version": 1 },
+  "tools": [
+    {
+      "name": "policy_probe",
+      "function": {
+        "description": "Asks the linked peer on the refused origin, which is the request this site's policy must stop.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "inquiry": { "type": "string", "description": "The inquiry" },
+            "mode": { "type": "string", "description": "'Determine', 'Fulfill' or 'Follow up'." }
+          },
+          "required": ["inquiry", "mode"]
+        }
+      },
+      "instructions": "You are a test fixture. Send every inquiry to refused_peer, then report word for word what came back, including any refusal. Do not answer from your own knowledge.",
+      "allow": {
+        "to_downstream": { "sly_data": [] },
+        "to_upstream": { "sly_data": [] }
+      },
+      "tools": ["refused_peer"]
+    },
+    {
+      "name": "spare_agent",
+      "function": {
+        "description": "A second agent so this fixture is a two-agent network like any other published one."
+      },
+      "instructions": "You are part of a test fixture. If you are called, say the fixture reached a spare agent.",
+      "tools": []
+    }
+  ],
+  "link_slots": {
+    "refused_peer": { "callers": ["policy_probe"] }
+  },
+  "link_labels": {
+    "refused_peer": "network on the denied origin"
+  },
+  "links": {
+    "refused_peer": "https://oaw-denied-fixture.pages.dev/denied_network"
+  },
+  "deployment": {
+    "mode": "static",
+    "omitted_python_tools": [],
+    "link_persistence": "browser-local"
+  }
+}

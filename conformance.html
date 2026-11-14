@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Conformance — Mahmood Battery Center</title>
+<meta name="description" content="Every interoperability claim this shop makes is re-run in your browser, on this page, against the sponsor's own reference runtime. No API key, no server, no simulation: the four refusals and the two consent gates are triggered here and their trace is shown." />
+<link rel="stylesheet" href="./theme.css" />
+<link rel="alternate" type="application/json" title="Agent manifest" href="./agent-manifest.json" />
+<style>
+  .preflight { border: 1px solid var(--line); border-left: 4px solid var(--brand); border-radius: 10px;
+    background: var(--wash); padding: 12px 16px; margin: 0 0 22px; }
+  .preflight dl { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 8px 0 0; font-size: 13px; }
+  .preflight dt { color: var(--muted); } .preflight dd { margin: 0; }
+
+  .probes { display: grid; gap: 14px; margin: 0 0 26px; }
+  .probe { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; background: #fff; }
+  .probe h3 { margin: 0 0 2px; font-size: 16.5px; }
+  .probe .claim { margin: 0 0 10px; color: var(--muted); font-size: 13.5px; max-width: 84ch; }
+  .run { font: inherit; font-size: 14px; cursor: pointer; background: var(--brand); color: #fff;
+    border: 0; border-radius: 8px; padding: 8px 14px; }
+  .run:hover { background: var(--brand-2); }
+  .run[disabled] { opacity: .55; cursor: progress; }
+  .run.ghost { background: #fff; color: var(--brand); border: 1px solid var(--line); }
+  .buttons { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+  .verdict { display: inline-block; font-size: 12.5px; font-weight: 700; letter-spacing: .3px;
+    border-radius: 999px; padding: 2px 10px; vertical-align: 2px; }
+  .verdict.pass { background: #e6f4ec; color: var(--brand); border: 1px solid #b7ddc6; }
+  .verdict.fail { background: #fbeaea; color: var(--warn); border: 1px solid #eec3c3; }
+  .verdict.wait { background: var(--wash); color: var(--muted); border: 1px solid var(--line); }
+
+  .out { margin-top: 12px; }
+  .out:empty { display: none; }
+  blockquote { margin: 8px 0 0; padding: 9px 13px; border-left: 3px solid var(--brand-2);
+    background: var(--wash); font: 13px/1.5 ui-monospace, "Cascadia Mono", Consolas, monospace;
+    white-space: pre-wrap; overflow-wrap: anywhere; }
+  table.ev { border-collapse: collapse; width: 100%; margin: 10px 0 0; font-size: 12.8px; }
+  table.ev th, table.ev td { border-bottom: 1px solid var(--line); padding: 4px 8px; text-align: left; vertical-align: top; }
+  table.ev th { color: var(--muted); font-weight: 600; white-space: nowrap; }
+  table.ev td.mono { font-family: ui-monospace, Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .note { margin: 8px 0 0; font-size: 12.8px; color: var(--muted); max-width: 84ch; }
+
+  .consent { margin: 12px 0 0; padding: 13px 15px; border: 2px solid var(--brand); border-radius: 10px; background: #fff; }
+  .consent .t { margin: 0 0 4px; font-size: 15.5px; font-weight: 700; }
+  .consent .f { margin: 0; font-size: 13px; }
+  .consent .req { margin: 8px 0 0; font: 13px/1.5 ui-monospace, Consolas, monospace; background: var(--wash);
+    padding: 7px 10px; border-radius: 6px; overflow-wrap: anywhere; }
+  .consent .buttons { margin-top: 10px; }
+  .done { margin: 10px 0 0; font-size: 13px; font-weight: 700; }
+  .summary { font-size: 14px; margin: 0 0 14px; }
+</style>
+</head>
+<body>
+<header class="masthead">
+  <div class="mast">
+    <span class="mark">MB</span>
+    <div>
+      <h1>Conformance — Mahmood Battery Center</h1>
+      <p class="sub">Open Agentic Web Challenge · Stage One · MVP Profile 0.2 (6 Nov 2026)</p>
+    </div>
+  </div>
+  <nav class="links">
+    <a href="./">Shopfront</a>
+    <a href="./agent-manifest.json">agent-manifest.json</a>
+    <a href="./invoice_shopfront_assistant.network.json">network</a>
+    <a href="./links.json">links.json</a>
+    <a href="./.well-known/nsdeploy.json">.well-known</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <h2>Every claim on this page is executed, not described.</h2>
+    <p>
+      The <a href="https://cognizant-ai-lab.github.io/nsdeploy/">sponsor's reference browser runtime</a>
+      is copied into <code>./runtime/</code> and used unchanged. Each button below builds an
+      <code>Engine</code> from that bundle, points it at a published file on this origin, runs a real
+      turn and prints what the runtime itself said. The published router is <code>browser://mock</code>,
+      so <b>these probes need no API key and send nothing to a model provider</b>; the refusals, budgets,
+      policies and citations they exercise are the same code paths a keyed run uses.
+    </p>
+    <p>
+      Check 7's four refusals are published as real fixtures on this origin (<code>./broken/</code>,
+      <code>./cyclic/</code>, <code>./budget/</code>, <code>./deny/</code>) rather than simulated, because
+      "the runtime would refuse" is only evidence if something is actually there to be refused. The same
+      seven checks are also run offline against the identical files by <code>node test/interop.mjs</code>,
+      whose generated report is <a href="./agent-manifest.json">linked from the manifest</a>.
+    </p>
+  </section>
+
+  <section class="preflight" id="preflight">
+    <b>Reading this page before you click</b>
+    <dl>
+      <dt>Runtime</dt><dd>vendored <code>./runtime/</code>, nsdeploy commit <code id="commit">53a787cc…</code> — not our code</dd>
+      <dt>Inference</dt><dd id="inference">checking the published router…</dd>
+      <dt>Requests</dt><dd>this page wraps <code>window.fetch</code> and logs every request a probe makes, in order, with no credential values — the list you see is measured, not asserted</dd>
+      <dt>Consent</dt><dd>probes 5 and 6 stop and wait for you. The runtime's own turn deadline is 90 seconds</dd>
+      <dt>Side effects</dt><dd>only probe 6's approved write stores anything, and it stores one draft in this browser's <code>localStorage</code>, which the page lets you delete</dd>
+    </dl>
+  </section>
+
+  <p class="summary" id="summary">No probes have run yet.</p>
+  <div class="buttons" style="margin:0 0 18px">
+    <button type="button" class="run" id="run-refusals">Run the four refusals (probes 1–4)</button>
+    <span class="tiny">This is the sequence the two-minute video shows.</span>
+  </div>
+
+  <section class="probes" id="probes">
+
+    <article class="probe" data-probe="1">
+      <h3>1 · An invalid published network is stopped <span class="verdict wait">not run</span></h3>
+      <p class="claim">spec §6.7 — "Stop an invalid network … with a visible error". <code>./broken/empty_graph.network.json</code>
+      publishes a network with no agents and no front man.</p>
+      <div class="buttons"><button type="button" class="run" data-run>Load and run ./broken/</button></div>
+      <div class="out"></div>
+    </article>
+
+    <article class="probe" data-probe="2">
+      <h3>2 · A composition cycle is stopped <span class="verdict wait">not run</span></h3>
+      <p class="claim">spec §6.7 — "…a composition cycle…". <code>./cyclic/composition_cycle.network.json</code> hands its own
+      question back to itself, so the second hop is already in the call chain.</p>
+      <div class="buttons"><button type="button" class="run" data-run>Load and run ./cyclic/</button></div>
+      <div class="out"></div>
+    </article>
+
+    <article class="probe" data-probe="3">
+      <h3>3 · An over-budget composition is skipped <span class="verdict wait">not run</span></h3>
+      <p class="claim">spec §6.7 — "…an over-budget request…". <code>./budget/budget_probe.network.json</code> names the same peer
+      twice in one query; the runtime allows one consultation per peer per query.</p>
+      <div class="buttons"><button type="button" class="run" data-run>Load and run ./budget/</button></div>
+      <div class="out"></div>
+    </article>
+
+    <article class="probe" data-probe="4">
+      <h3>4 · A denied origin is refused before transport <span class="verdict wait">not run</span></h3>
+      <p class="claim">spec §6.7 — "…and a denied origin with visible errors". This site's own manifest denies
+      <code>https://oaw-denied-fixture.pages.dev</code>, and <code>./deny/deny_probe.network.json</code> asks to contact it.</p>
+      <div class="buttons"><button type="button" class="run" data-run>Load and run ./deny/</button></div>
+      <div class="out"></div>
+    </article>
+
+    <article class="probe" data-probe="5">
+      <h3>5 · Peer contact asks you first, and shows what it will send <span class="verdict wait">not run</span></h3>
+      <p class="claim">spec §3.2 / §6.4 — the exact named network at a second origin is loaded only after the user approves,
+      and then runs <em>here</em>. This probe uses the shopfront's real network, whose <code>links.json</code> binds
+      <code>fbr_rules_authority</code>. You decide Allow or Decline when the card appears.</p>
+      <div class="buttons"><button type="button" class="run" data-run>Ask a question that reaches the peer</button></div>
+      <div class="out"></div>
+    </article>
+
+    <article class="probe" data-probe="6">
+      <h3>6 · Arguments are validated, and a write waits for you <span class="verdict wait">not run</span></h3>
+      <p class="claim">spec §3.1 — "the runtime must validate arguments and show the user the destination and arguments before
+      a write". This origin registers five local site actions, four <code>read</code> and one <code>write</code>. The dialog you
+      get is the runtime's own <code>reviewActions()</code>, not a page copy of it.</p>
+      <div class="buttons">
+        <button type="button" class="run ghost" data-act="bad">Send arguments the schema does not declare</button>
+        <button type="button" class="run ghost" data-act="read">Run a read action</button>
+        <button type="button" class="run" data-act="write">Draft a petition (write effect)</button>
+      </div>
+      <div class="out"></div>
+    </article>
+
+  </section>
+
+  <section class="strip">
+    <h3>What this page cannot prove on its own</h3>
+    <ul class="tiny" style="max-width:92ch">
+      <li>The mock router answers in summaries truncated to 1200 characters, so a probe's visible sentence is not the
+          evidence — the trace table and the request log underneath it are.</li>
+      <li>Probes 1–4 stay on this origin. Cross-origin behaviour (probes 5 and 6's peer read) additionally depends on
+          the hosting headers of the second site, which only a deployed origin can show.</li>
+      <li>The budget values the runtime enforces — 4 remote calls, 1 call per peer, 24 agent calls, depth 5, a 90-second
+          deadline — are fixed in <code>runtime/engine.js</code>. Our published <code>max_execution_seconds</code> is a
+          hint, and this page says so rather than claiming we set it.</li>
+      <li>Whether a real provider answers these questions well is a video item, not a conformance result.</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <p>Designed &amp; Developed by <b>Arham Shah</b></p>
+  <p class="tiny">
+    Apache-2.0. <code>/runtime</code> is the sponsor's reference browser runtime (nsdeploy, pinned commit
+    53a787cc23c774ec19ad287d3c61ae571ad9d334), copied verbatim and unmodified; this page imports it directly and adds
+    no agent logic of its own. Every refusal quoted above is the runtime's own sentence. The rules answers this site can
+    give are produced by deterministic code over a cited rule table — see <code>./site/actions/</code> and
+    <code>../rules-authority/rules/PK-FBR.json</code>.
+  </p>
+</footer>
+
+<script type="module">
+  import { Engine, TraceBus } from "./runtime/index.js";
+  import { reviewActions } from "./runtime/action-transport.js";
+
+  const COMMIT = "53a787cc23c774ec19ad287d3c61ae571ad9d334";
+  const PEER_HOST = "fbr-rules-authority.pages.dev";
+  const DENIED_HOST = "oaw-denied-fixture.pages.dev";
+  const PAGE_ORIGIN = location.origin;
+
+  document.getElementById("commit").textContent = `${COMMIT.slice(0, 8)}…`;
+
+  // ---- request spy ---------------------------------------------------------------------
+  // Measured in the page, so "the denied origin received nothing" and "the key went only to
+  // the router" are observations a visitor can check, not sentences we wrote.
+  const net = [];
+  const consents = [];
+  const realFetch = window.fetch.bind(window);
+  window.fetch = async (input, init = {}) => {
+    const raw = typeof input === "object" && input && "url" in input ? input.url : String(input);
+    const url = new URL(raw, location.href);
+    const headers = init.headers ?? (typeof input === "object" && input ? input.headers : undefined);
+    const rec = {
+      n: net.length + 1,
+      method: String(init.method || (typeof input === "object" && input?.method) || "GET").toUpperCase(),
+      url: url.href,
+      host: url.host,
+      crossOrigin: url.origin !== PAGE_ORIGIN,
+      auth: hasAuthorization(headers),          // recorded as a boolean only; a key is never stored or shown
+      at: performance.now(),
+    };
+    net.push(rec);
+    try {
+      const res = await realFetch(input, init);
+      rec.status = res.status;
+      return res;
+    } catch (error) {
+      rec.status = null;
+      rec.error = String(error?.message || error);
+      throw error;
+    }
+  };
+
+  function hasAuthorization(headers) {
+    if (!headers) return false;
+    if (typeof headers.get === "function") return headers.get("authorization") !== null;
+    if (Array.isArray(headers)) return headers.some(([k]) => String(k).toLowerCase() === "authorization");
+    return Object.keys(headers).some((k) => k.toLowerCase() === "authorization");
+  }
+
+  // ---- small DOM helpers (runtime text is always set with textContent, never parsed) ----
+  const h = (tag, cls, textContent) => {
+    const el = document.createElement(tag);
+    if (cls) el.className = cls;
+    if (textContent !== undefined) el.textContent = textContent;
+    return el;
+  };
+
+  const rowsOf = (pairs) => {
+    const table = h("table", "ev");
+    for (const [label, value, mono] of pairs) {
+      const tr = h("tr");
+      tr.append(h("th", null, label), h("td", mono ? "mono" : null, String(value)));
+      table.append(tr);
+    }
+    return table;
+  };
+
+  const requestRows = (fromIndex, note) => {
+    const slice = net.slice(fromIndex);
+    if (!slice.length) return rowsOf([["requests", note || "none — nothing left this browser"], ["cross-origin", "0"]]);
+    return rowsOf([
+      ["requests", slice.map((r) => `${r.n}. ${r.method} ${r.url}${r.status === null ? ` → ${r.error}` : ` → ${r.status}`}`).join("\n"), true],
+      ["cross-origin", slice.filter((r) => r.crossOrigin).length],
+      ["with an Authorization header", slice.filter((r) => r.auth).length],
+    ]);
+  };
+
+  const events = (trace, kinds, phase) => trace.events.filter((e) => kinds.includes(e.kind) && (!phase || e.phase === phase));
+  const modelCalls = (trace) => events(trace, ["model_call"], "end");
+  const firstQuote = (text, re) => (String(text).match(re) || [""])[0].replace(/\s+/g, " ").trim();
+  const hostOf = (url) => { try { return new URL(url).host; } catch { return String(url); } };
+  const describe = (rec) => `${rec.n}. ${rec.method} ${rec.url} → ${rec.status ?? `failed: ${rec.error}`}`;
+  const peerGets = (from, hosts) => net.slice(from).filter((rec) => hosts.has(rec.host));
+
+  // ---- probe harness -------------------------------------------------------------------
+  const results = new Map();
+  const summary = document.getElementById("summary");
+
+  function setVerdict(card, pass, label) {
+    const chip = card.querySelector(".verdict");
+    chip.className = `verdict ${pass ? "pass" : "fail"}`;
+    chip.textContent = label;
+    results.set(card.dataset.probe, pass);
+    const run = [...results.values()];
+    summary.textContent = `${run.length} probe${run.length === 1 ? "" : "s"} run — `
+      + `${run.filter(Boolean).length} behaved as the specification requires`
+      + (run.some((p) => !p) ? `, ${run.filter((p) => !p).length} did not.` : ".");
+  }
+
+  function engineFor(dir) {
+    const base = new URL(dir, location.href).href.replace(/\/$/, "");
+    const trace = new TraceBus();
+    const engine = new Engine({ originUrl: base, trace });
+    return { base, trace, engine };
+  }
+
+  // The runtime's own approval prompt, rendered into this probe's output area. It shows exactly
+  // the fields the runtime hands the host page (engine.js:362-364 / runner.js:362-364).
+  function consentCard(info, mount) {
+    return new Promise((resolve) => {
+      const box = h("div", "consent");
+      box.append(h("p", "t", `Contact ${info.peerLabel} on your behalf?`));
+      box.append(h("p", "f", `Destination origin: ${info.peerOrigin} · kind: ${info.kind}`
+        + (info.est?.totalTokens ? ` · est. ${info.est.totalTokens} tokens${info.est.costText ? ` (${info.est.costText})` : ""}` : "")));
+      box.append(h("p", "f", "What the network would send it — this is the text, unedited:"));
+      box.append(h("div", "req", info.requestText || "(no text)"));
+      const buttons = h("div", "buttons");
+      const finish = (decision, words) => {
+        consents.push({
+          host: info.peerOrigin,
+          label: info.peerLabel,
+          decision,
+          at: performance.now(),
+          requestsBefore: net.filter((rec) => hostOf(rec.url) === info.peerOrigin).length,
+        });
+        buttons.remove();
+        box.append(h("p", "done", words));
+        resolve(decision);
+      };
+      for (const [decision, label] of [["allow", "Allow"], ["always", "Always allow"], ["decline", "Decline"]]) {
+        const b = h("button", decision === "decline" ? "run ghost" : "run", label);
+        b.type = "button";
+        b.addEventListener("click", () => finish(decision, decision === "decline" ? "✕ Declined — nothing was sent." : "✓ Allowed."), { once: true });
+        buttons.append(b);
+      }
+      box.append(buttons);
+      mount.append(box);
+      box.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    });
+  }
+
+  async function turn(card, dir, message, { expect, askConsent, bindLinks } = {}) {
+    const out = card.querySelector(".out");
+    out.textContent = "";
+    const { base, trace, engine } = engineFor(dir);
+    engine.onConsent = askConsent ? (info) => consentCard(info, out) : async () => "allow";
+    engine.onActionConfirm = (items) => reviewActions(items, "Review before this runs");
+    const links = [];
+    if (bindLinks) {
+      engine.onLinkRequired = async ({ reference }) => {
+        const target = new URL(bindLinks.path, location.href).href;
+        links.push({ reference, target });
+        return target;
+      };
+    }
+    const mark = net.length;
+    let answer = "", error = "";
+    try {
+      await engine.loadTop();
+      answer = (await engine.runTurn(message)).text;
+    } catch (err) {
+      error = String(err?.message || err);
+    }
+    const verdictText = [answer, error].join("\n");
+    const pass = expect.test(verdictText);
+    const calls = modelCalls(trace);
+    out.append(rowsOf([
+      ["network", `${base.replace(location.origin, "") || "/"} · published router ${engine.top?.manifest?.llm_router?.base_url || "(not loaded)"}`],
+      ["turn", message],
+      ["model calls", `${calls.length}${calls.length ? `, ${calls.every((e) => e.mock) ? "all browser mock — no key, no provider" : "at least one was not the mock"}` : " — the runtime stopped before asking any model"}`],
+      [error ? "error raised" : "answer", (error || answer).slice(0, 1200), true],
+    ]));
+    return { trace, engine, answer, error, verdictText, out, pass, mark, links };
+  }
+
+  // ---- probes 1–4: the four refusals ---------------------------------------------------
+  const refusals = [
+    {
+      dir: "./broken/", message: "Does this site publish anything?",
+      expect: /must not be empty|No front-man agent found|failed validation/i,
+      quote: /Network '[^']*'[^;]*(;[^;]*)?/,
+      heading: "What the runtime said, verbatim",
+      note: "The validator runs inside compile, before any model call — which is why the model call count above is 0.",
+    },
+    {
+      dir: "./cyclic/", message: "Ask the same network to answer this again.",
+      expect: /already in this request's call chain|composition cycle/i,
+      quote: /Skipped [^.]*call chain\./,
+      heading: "The cycle guard's own sentence",
+      note: "The hop is skipped and the turn continues with what it already has; the network is never re-entered.",
+    },
+    {
+      dir: "./budget/", message: "Ask the peer twice about the same invoice.",
+      expect: /already consulted for this query/i,
+      quote: /Skipped [^.]*already consulted for this query\./,
+      heading: "The budget skip, in the runtime's words",
+      note: "budget values are fixed in engine.js (4 remote calls, 1 per peer, 24 agent calls, depth 5, 90 s). The published max_execution_seconds is a hint, not the enforced number.",
+      bindLinks: { path: "budget/one_target" },
+    },
+    {
+      dir: "./deny/", message: "Ask the linked peer network a question.",
+      expect: /is not in|refusing to contact/i,
+      quote: /Policy:.{0,200}?contact it\./s,
+      heading: "The policy refusal, in the runtime's words",
+      note: "This is the browser-side half of the check: the request log above is measured in this page, not asserted.",
+      crossHost: DENIED_HOST,
+    },
+  ];
+
+  async function runRefusal(i) {
+    const card = document.querySelector(`[data-probe="${i + 1}"]`);
+    const spec = refusals[i];
+    const button = card.querySelector("[data-run]");
+    button.disabled = true;
+    const r = await turn(card, spec.dir, spec.message, { expect: spec.expect, bindLinks: spec.bindLinks });
+    const said = firstQuote(r.verdictText, spec.quote);
+    r.out.append(h("p", "note", spec.heading), h("blockquote", null, said || "(the runtime never said this — see the text above)"));
+    const during = net.slice(r.mark);
+    const reached = spec.crossHost ? during.filter((rec) => rec.host === spec.crossHost) : [];
+    const consulted = events(r.trace, ["remote_fetch"], "end").filter((e) => e.status === "ok");
+    r.out.append(requestRows(r.mark, "none — nothing left this browser during this probe"));
+    r.out.append(rowsOf([
+      ["link slots this page bound", r.links.length
+        ? r.links.map((l) => `${l.reference} → ${l.target}`).join("\n")
+        : "none — this fixture's peer is already bound in its published files"],
+      ["peer networks fetched and run locally", consulted.length
+        ? `${consulted.length}: ${consulted.map((e) => `${e.network} (${e.peerOrigin})`).join(", ")}`
+        : "0"],
+      ["requests to the refused origin", spec.crossHost
+        ? `${reached.length} ${reached.length ? describe(reached[0]) : "— the refusal happened before transport"}`
+        : "n/a on this probe"],
+      ["refusal recorded by the runtime", events(r.trace, ["composition_limit", "composition_skip", "remote_fetch", "compile"])
+        .filter((e) => e.status === "error" || e.reason)
+        .map((e) => `${e.kind}: ${e.reason || e.error || e.status}`).join(" · ") || "see the quote above"],
+    ]));
+    r.out.append(h("p", "note", spec.note));
+    const pass = r.pass && (!spec.crossHost || reached.length === 0);
+    setVerdict(card, pass, pass ? "spec §6.7 satisfied" : "did not behave");
+    button.disabled = false;
+    return pass;
+  }
+
+  for (let i = 0; i < refusals.length; i++) {
+    document.querySelector(`[data-probe="${i + 1}"] [data-run]`).addEventListener("click", () => runRefusal(i));
+  }
+
+  document.getElementById("run-refusals").addEventListener("click", async (event) => {
+    const button = event.currentTarget;
+    button.disabled = true;
+    for (let i = 0; i < 4; i++) await runRefusal(i);
+    button.disabled = false;
+  });
+
+  // ---- probe 5: consent before contacting the peer -------------------------------------
+  document.querySelector('[data-probe="5"] [data-run]').addEventListener("click", async (event) => {
+    const card = event.currentTarget.closest(".probe");
+    const button = event.currentTarget;
+    button.disabled = true;
+    const consentMark = consents.length;
+    const r = await turn(card, "./", "Quote the FBR rule about an invoice whose buyer and seller are the same person.",
+      { expect: /contact|authority|declined|fbr_rules_authority|PK-FBR|rule|window/i, askConsent: true });
+    const asked = consents.slice(consentMark);
+    const peerSpans = events(r.trace, ["remote_fetch"], "end");
+    const peerHosts = new Set([PEER_HOST, ...asked.map((c) => c.host), ...peerSpans.map((e) => e.peerOrigin)]);
+    const toPeer = peerGets(r.mark, peerHosts);
+    const ran = peerSpans.filter((e) => e.status === "ok");
+    const unreachable = peerSpans.filter((e) => e.status === "error");
+    const askedFirst = asked.length > 0 && asked.every((c) => c.requestsBefore === 0);
+    const declined = asked.some((c) => c.decision === "decline");
+    r.out.append(requestRows(r.mark, "none — this probe made no request at all"));
+    r.out.append(rowsOf([
+      ["prompts this runtime raised here", asked.length
+        ? asked.map((c) => `${c.label} (${c.host}) → ${c.decision}; requests already sent to it at that moment: ${c.requestsBefore}`).join("\n")
+        : "none — the turn never reached a cross-origin hop", true],
+      ["peer hosts measured here", [...peerHosts].join(", ") + " — the binding this site publishes, plus any host this run actually named", true],
+      ["requests to the peer after your decision", toPeer.length ? toPeer.map(describe).join("\n") : "0", true],
+      ["every peer request was a GET", toPeer.length ? toPeer.every((rec) => rec.method === "GET") : "n/a — nothing was sent"],
+      ["peer requests carrying an Authorization header", toPeer.filter((rec) => rec.auth).length],
+      ["peer networks that ran in this browser", ran.length
+        ? `${ran.length}: ${ran.map((e) => `${e.network} (${e.peerOrigin})`).join(", ")}`
+        : "0" + (unreachable.length ? " — every fetch of the peer's files failed" : "")],
+      ["peer files that ran in this browser", ran.map((e) => Object.values(e.fetchedUrls || {}).filter(Boolean).join(" ")).join(" · ") || "none"],
+    ]));
+    r.out.append(h("p", "note", ran.length
+      ? "Fetch-and-run: after your Allow the runtime read the peer's manifest, its exact named network file and its rule table, and executed them in this browser. The peer origin served files and ran nothing; it never saw a key, and no model call went to it."
+      : declined
+        ? "You declined, and the count stayed 0: the refusal is a return value the agent keeps working from, not a request that failed."
+        : asked.length && unreachable.length
+          ? `The card appeared before any request and you allowed it; the peer's files then failed to arrive (${unreachable.map((e) => e.error).join("; ")}). What §6.4 requires is the order — ask, then contact — and that order is measured above, so this row is a deployment gap, not a conformance one.`
+          : asked.length
+            ? "The card appeared before any request, and nothing reached the peer origin — expected while the authority site is not yet deployed. The order is what §6.4 requires, and it is measured here."
+            : "The turn never proposed a peer hop, so there was nothing to consent to."));
+    const pass = askedFirst && (toPeer.length === 0
+      ? (declined || asked.length > 0)
+      : toPeer.every((rec) => rec.method === "GET" && !rec.auth));
+    setVerdict(card, pass, pass
+      ? (ran.length ? "asked first, peer ran locally" : toPeer.length ? "asked first, peer unreachable" : "asked first, no contact")
+      : asked.length ? "contact not gated" : "no consent prompt");
+    button.disabled = false;
+  });
+
+  // ---- probe 6: argument validation and the write gate ---------------------------------
+  document.querySelector('[data-probe="6"]').addEventListener("click", async (event) => {
+    const button = event.target.closest("[data-act]");
+    if (!button) return;
+    const card = event.currentTarget;
+    const out = card.querySelector(".out");
+    button.disabled = true;
+    const { engine } = engineFor("./");
+    let pass = false;
+    try {
+      await engine.loadTop();
+      const scope = { base: engine.top.base, network: engine.top.network.name };
+      const catalog = engine.actions.catalog(scope);
+      const find = (name) => catalog.find((a) => a.name === name);
+      const component = (name, args) => ({ kind: "action", id: `probe-${button.dataset.act}`, action: find(name).ref, arguments: args });
+      const petitions = () => Object.keys(localStorage).filter((k) => k.startsWith("oaw.petitions."));
+
+      if (button.dataset.act === "bad") {
+        let message = "";
+        try {
+          engine.actions.prepare(component("check_edit_window", {
+            jurisdiction: "PK-FBR", generatedAt: new Date().toISOString(), extra: 1,
+          }));
+        } catch (err) { message = String(err?.message || err); }
+        out.textContent = "";
+        out.append(rowsOf([
+          ["actions registered from ./site/actions/fbr-rules.mjs", catalog.map((a) => `${a.name}:${a.effect}`).join(", ")],
+          ["arguments sent", '{ jurisdiction: "PK-FBR", generatedAt: <now>, extra: 1 }'],
+          ["runtime response", message || "(it accepted them — that is a failure)"],
+          ["handler ran", "no — prepare() threw, so there was nothing to confirm and nothing to execute"],
+        ]));
+        pass = /Unexpected arguments\.|Missing |Invalid /i.test(message);
+      } else {
+        const isWrite = button.dataset.act === "write";
+        const name = isWrite ? "file_petition_draft" : "check_edit_window";
+        const args = isWrite
+          ? {
+            jurisdiction: "PK-FBR",
+            invoiceRef: "INV-4471",
+            generatedAt: new Date(Date.now() - 9 * 86400000).toISOString(),
+            operation: "amend",
+            reason: "The item line carried the wrong sales-tax rate for a registered buyer.",
+            region: "Rawalpindi",
+          }
+          : { jurisdiction: "PK-FBR", generatedAt: new Date(Date.now() - 24 * 3600000).toISOString() };
+        const before = petitions().length;
+        engine.onActionConfirm = (items) => reviewActions(items, isWrite ? "Confirm before this write" : "Confirm this action");
+        let receipts = null, error = "";
+        try {
+          receipts = await engine.actions.execute(engine.actions.prepare(component(name, args)), engine.onActionConfirm, `probe-6-${Date.now()}`);
+        } catch (err) { error = String(err?.message || err); }
+        const after = petitions().length;
+        out.textContent = "";
+        const storedKey = receipts?.[0]?.result?.stored_at || "";
+        out.append(rowsOf([
+          ["action", `${name} · effect ${find(name).effect} · destination ${new URL(find(name).ref).origin}`],
+          ["arguments", JSON.stringify(args, null, 1), true],
+          ["dialog", isWrite ? "the runtime's reviewActions() showed the destination, the effect and these arguments before anything ran" : "same gate: the runtime calls the confirm hook for every plan, reads included"],
+          ["returned", error ? `error: ${error}` : receipts === null ? "null — you declined, so no handler ran" : JSON.stringify(receipts[0], null, 1).slice(0, 1600), true],
+          [isWrite ? "drafts in this browser before / after" : "side effect", isWrite ? `${before} → ${after}` : "none; this action only computes"],
+        ]));
+        if (isWrite && storedKey) {
+          const clear = h("button", "run ghost", `Delete localStorage["${storedKey}"]`);
+          clear.type = "button";
+          clear.addEventListener("click", () => {
+            localStorage.removeItem(storedKey);
+            clear.replaceWith(h("p", "note", "Removed. That draft only ever existed in this browser; nothing was sent to the Board."));
+          }, { once: true });
+          out.append(clear);
+        }
+        out.append(h("p", "note", isWrite
+          ? "Decline it once and approve it once: a declined write returns null and stores nothing, and an approved write still returns a receipt that says not_a_filing. A response is not a business outcome."
+          : "The rules answer came from deterministic code over the cited table, which is the whole point of this site: no number in it came from a model's memory."));
+        pass = isWrite ? (receipts === null ? after === before : receipts[0]?.status === "succeeded") : !!receipts;
+      }
+    } catch (err) {
+      out.textContent = "";
+      out.append(h("p", "note", `This probe could not run: ${String(err?.message || err)}`));
+    }
+    setVerdict(card, pass, pass ? "spec §3.1 satisfied" : "did not behave");
+    button.disabled = false;
+  });
+
+  // ---- preflight lines ------------------------------------------------------------------
+  (async () => {
+    const { engine } = engineFor("./");
+    try {
+      await engine.loadTop();
+      const published = engine.top.manifest.llm_router;
+      document.getElementById("inference").textContent = published.mock
+        ? `${published.base_url} — deterministic browser mock, no key, no provider request. byok_router ${published.byok_router || "(none)"} is what a keyed run switches to.`
+        : `${published.base_url} — a real router; this page would need your key.`;
+    } catch (error) {
+      document.getElementById("inference").textContent = `the manifest did not load: ${String(error?.message || error)}`;
+    }
+  })();
+</script>
+</body>
+</html>

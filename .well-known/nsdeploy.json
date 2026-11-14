@@ -1,0 +1,22 @@
+{
+  "protocol": "nsdeploy-site/v1",
+  "site": "Mahmood Battery Center",
+  "origin": "https://mahmoodbatterycenter-byte.github.io",
+  "networks": [
+    "invoice_shopfront_assistant"
+  ],
+  "fixtures": [
+    "broken/empty_graph",
+    "cyclic/composition_cycle",
+    "budget/budget_probe",
+    "budget/one_target",
+    "deny/deny_probe"
+  ],
+  "pages": {
+    "shopfront": "index.html",
+    "conformance": "conformance.html"
+  },
+  "credit": "Designed & Developed by Arham Shah",
+  "licence": "Apache-2.0",
+  "note": "Discovery metadata only. spec 3.3 makes these files optional, and no runtime path reads them: a peer is located through /agent-manifest.json and /links.json, not through this document."
+}

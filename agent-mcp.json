@@ -1,0 +1,7 @@
+{
+  "protocol": "nsdeploy-agent-mcp/v1",
+  "network": "invoice_shopfront_assistant",
+  "front_man": "counter_desk",
+  "available": false,
+  "reason": "This is a static bundle; a public MCP facade requires an application host. The grounded capability is a registered local site action plus a published data file, which spec 2.1 lists as equally valid."
+}

@@ -1,0 +1,52 @@
+{
+  "name": "budget_probe",
+  "metadata": {
+    "description": "Two named peer references that both resolve to the same published network. The composition budget is per peer per query, so only the first may be contacted. The two slots are deliberately left unbound here: a published binding must name one absolute host, and this fixture's peer is this very origin, so the host page binds both slots to wherever it is actually served from through the runtime's link-resolution hook."
+  },
+  "llm_config": { "model_name": "mock-1" },
+  "max_execution_seconds": 30,
+  "cruse": { "version": 1 },
+  "tools": [
+    {
+      "name": "repeat_counter",
+      "function": {
+        "description": "Deliberately asks the linked peer twice within one query so the per-query budget has something to refuse.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "inquiry": { "type": "string", "description": "The inquiry" },
+            "mode": { "type": "string", "description": "'Determine', 'Fulfill' or 'Follow up'." }
+          },
+          "required": ["inquiry", "mode"]
+        }
+      },
+      "instructions": "You are a test fixture. Call target_first with the inquiry, then call target_second with the same inquiry, then report word for word what each call returned, including any refusal.",
+      "allow": {
+        "to_downstream": { "sly_data": [] },
+        "to_upstream": { "sly_data": [] }
+      },
+      "tools": ["target_first", "target_second"]
+    },
+    {
+      "name": "spare_agent",
+      "function": {
+        "description": "A second agent so this fixture is a two-agent network like any other published one."
+      },
+      "instructions": "You are part of a test fixture. If you are called, say the fixture reached a spare agent.",
+      "tools": []
+    }
+  ],
+  "link_slots": {
+    "target_first": { "callers": ["repeat_counter"] },
+    "target_second": { "callers": ["repeat_counter"] }
+  },
+  "link_labels": {
+    "target_first": "one target (first binding)",
+    "target_second": "one target (second binding, same network)"
+  },
+  "deployment": {
+    "mode": "static",
+    "omitted_python_tools": [],
+    "link_persistence": "browser-local"
+  }
+}

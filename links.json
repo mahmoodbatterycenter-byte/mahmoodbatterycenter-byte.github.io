@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "networks": {
+    "invoice_shopfront_assistant": {
+      "fbr_rules_authority": "https://fbr-rules-authority.pages.dev/fbr_rules_authority"
+    }
+  }
+}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mahmood Battery Center — ask the counter</title>
+<meta name="description" content="This shop's pages publish an agent network: stock and prices come from the shop's own catalogue file, FBR invoice answers come from a deterministic rules tool, and Pakistani tax law is cited from a second site the shop does not control." />
+<link rel="stylesheet" href="./theme.css" />
+<link rel="alternate" type="application/json" title="Agent manifest" href="./agent-manifest.json" />
+</head>
+<body>
+<header class="masthead">
+  <div class="mast">
+    <span class="mark">MB</span>
+    <div>
+      <h1>Mahmood Battery Center</h1>
+      <p class="sub">Tubular batteries · Online UPS · Solar panels &amp; wiring · Rawalpindi · NTN on every bill</p>
+    </div>
+  </div>
+  <nav class="links">
+    <a href="./conformance.html">Conformance</a>
+    <a href="./agent-manifest.json">agent-manifest.json</a>
+    <a href="./invoice_shopfront_assistant.network.json">network</a>
+    <a href="./links.json">links.json</a>
+    <a href="./catalog/inventory.json">catalogue data</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <h2>Ask the counter. It answers from our own files, not from memory.</h2>
+    <p>
+      This page is an ordinary shop page that also publishes an agent network. Three things
+      are true about the answers below, and the agent will tell you which one it used:
+      <b>stock and price</b> come from <a href="./catalog/inventory.json">our catalogue file</a>;
+      <b>the 72-hour cancel window, the channel and the required fields</b> come from a
+      deterministic tool on this site that carries a citation with every number; and
+      <b>the text of the rule</b> is fetched from
+      <a href="https://fbr-rules-authority.pages.dev/">a separate rules-authority site</a>
+      that runs here in your browser after you agree to contact it. Your model key is never
+      sent to either of those places.
+    </p>
+    <ul class="tries">
+      <li><button type="button" data-try>Do you have the 150Ah tubular battery in stock, and what is it today?</button></li>
+      <li><button type="button" data-try>I sold a battery to a registered dealer yesterday on a digital invoice — can I still cancel it?</button></li>
+      <li><button type="button" data-try>Do I need the buyer's NTN on this bill, or is a name enough?</button></li>
+      <li><button type="button" data-try>What exactly has to be printed on the tax invoice?</button></li>
+    </ul>
+  </section>
+
+  <section id="agent">
+    <div id="app" data-ns-layout="fixed">Loading the counter assistant…</div>
+  </section>
+
+  <section class="strip">
+    <h3>What is on the counter right now</h3>
+    <p class="tiny">Rendered from the same <code>catalog/inventory.json</code> the agent reads, so the page and the agent cannot disagree.</p>
+    <div id="shelf" class="shelf">Loading…</div>
+  </section>
+</main>
+
+<footer>
+  <p>Designed &amp; Developed by <b>Arham Shah</b></p>
+  <p class="tiny">
+    Open Agentic Web MVP Profile 0.2 · Apache-2.0 · The <code>/runtime</code> directory is the
+    sponsor's reference browser runtime (nsdeploy, pinned commit), not our code — see
+    <a href="./conformance.html">Conformance</a>. Prices are counter prices and include nothing
+    unless stated; tax treatment is decided by the rules tool, not by this page.
+  </p>
+</footer>
+
+<script type="module">
+  import { boot } from "./runtime/index.js";
+
+  const siteBase = new URL("./", window.location.href).href;
+  try {
+    const runtime = await boot("#app", {
+      originUrl: siteBase,
+      sandboxWorkerUrl: new URL("runtime/sandbox-worker.js", siteBase).href,
+    });
+    const site = await import("./site.js");
+    await site.customize?.({ root: document.querySelector("#app"), runtime });
+  } catch (error) {
+    const app = document.querySelector("#app");
+    app.innerHTML = `<p class="fail">The agent could not start: ${error.message}</p>
+      <p class="tiny">This page publishes its network at <code>./agent-manifest.json</code>. If you opened
+      these files from disk (file://), serve them over http instead — the runtime reads the manifest
+      with a normal fetch.</p>`;
+    console.error(error);
+  }
+
+  // The shelf strip is plain progressive enhancement over the published catalogue.
+  try {
+    const data = await (await fetch("./catalog/inventory.json", { cache: "no-store" })).json();
+    const money = new Intl.NumberFormat("en-PK");
+    document.querySelector("#shelf").innerHTML = data.items.map((item) => `
+      <article class="card${item.stock ? "" : " out"}">
+        <h4>${item.name}</h4>
+        <p class="price">Rs ${money.format(item.price)}${data.prices_include_tax ? "" : " + tax"}</p>
+        <p class="stock">${item.stock ? `${item.stock} in stock` : "Out of stock"}${item.warranty_months ? ` · ${item.warranty_months} month warranty` : ""}</p>
+        ${item.sales_tax_exempt ? `<p class="tag">exempt: ${item.sro_schedule_no}</p>` : ""}
+        <p class="sku">${item.sku}</p>
+      </article>`).join("");
+  } catch (error) {
+    document.querySelector("#shelf").textContent = "Catalogue data could not be read.";
+  }
+</script>
+</body>
+</html>

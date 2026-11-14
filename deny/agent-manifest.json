@@ -1,0 +1,29 @@
+{
+  "brand": "Conformance fixture — peer policy",
+  "networks": [
+    {
+      "name": "deny_probe",
+      "front_man": "policy_probe",
+      "hocon": "./deny_probe.network.json",
+      "description": "Asks to contact a published network on an origin this site's own manifest denies. The runtime must refuse before it sends a request, so no fetch reaches the denied host."
+    }
+  ],
+  "llm_router": {
+    "base_url": "browser://mock",
+    "mock": true,
+    "byok_router": "https://openrouter.ai/api/v1"
+  },
+  "allowed_peers": [],
+  "peer_policy": {
+    "mode": "open",
+    "deny_origins": [
+      "https://oaw-denied-fixture.pages.dev"
+    ],
+    "note": "Open by default so real peers work, with one named origin refused. This manifest is the publisher's own declaration, so the refusal is the site's policy, not a test mock."
+  },
+  "deployment": {
+    "mode": "static",
+    "self_contained_runtime": true,
+    "browser_mock": true
+  }
+}
